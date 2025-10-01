@@ -34,3 +34,5 @@ Inner join products p on p.product_id = oi.product_id
 Inner Join brands b on b.brand_id = p.brand_id
 Where b.brand_name = 'Brand 1'
 Group by so.store_name, b.brand_name
+
+-- Listar os Funcionarios que não estejam relacionados a um Pedido.
