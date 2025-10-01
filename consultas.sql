@@ -67,9 +67,9 @@ From ( Select  b.brand_id,
 Group by resumo.brand_id, resumo.store_id
 
 -- 5. Listar os Funcionarios que não estejam relacionados a um Pedido.
-Select s.staff_id,
-       s.first_name,
-       s.last_name
+Select 'ID do Staff' = s.staff_id,
+       'Nome' = s.first_name,
+       'Sobrenome' = s.last_name
 From staffs s
 Left join orders o on s.staff_id = o.staff_id
 Where o.order_id is null
