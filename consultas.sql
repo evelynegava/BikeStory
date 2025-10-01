@@ -50,6 +50,8 @@ Select 'ID do Produto' = p.product_id,
     Where p.product_id = s.product_id)
 
 -- 4.Agrupar a quantidade de vendas que uma determinada Marca por Loja.
+Declare @brand_name varchar(70)
+
 Select 'Id da Marca' = resumo.brand_id,
        'Marca' = resumo.brand_name,
        'Id da Loja' = resumo.store_id,
@@ -65,15 +67,17 @@ From ( Select  b.brand_id,
         Inner join order_items oi ON o.order_id = oi.order_id
         Inner join products p ON p.product_id = oi.product_id
         Inner join brands b ON b.brand_id = p.brand_id
-        Where b.brand_name = 'Brand 1'
+        Where b.brand_name = @brand_name
         Group by b.brand_id, b.brand_name, o.store_id, so.store_name, o.order_id
 ) as resumo
 Group by resumo.brand_id, resumo.brand_name,resumo.store_id, resumo.store_name
 
 -- 5. Listar os Funcionarios que não estejam relacionados a um Pedido.
-Select 'ID do Staff' = s.staff_id,
-       'Nome' = s.first_name,
-       'Sobrenome' = s.last_name
+Declare @order_id int
+
+Select distinct 'ID do Staff' = s.staff_id,
+                'Nome' = s.first_name,
+                'Sobrenome' = s.last_name
 From staffs s
 Left join orders o on s.staff_id = o.staff_id
-Where o.order_id is null
+Where (o.order_id is null or o.order_id <> @order_id)
