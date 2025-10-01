@@ -19,10 +19,14 @@ Where not exists (
 Select p.product_id,
        p.product_name,
        p.brand_id,
-       p.category_id, 
+       br.brand_name,
+       p.category_id,
+       cat.category_name, 
        p.model_year,
        p.list_price
   From products p 
+  Inner Join brands br on p.brand_id = br.brand_id
+  Inner join categories cat on p.category_id = cat.category_id
   Where not exists 
   (Select 1 
    From order_itens oi 
@@ -32,11 +36,15 @@ Select p.product_id,
 Select p.product_id,
        p.product_name,
        p.brand_id,
+       br.brand_name,
        p.category_id, 
+       cat.category_name, 
        p.model_year,
        p.list_price
   From products p
- Where not exists (
+  Inner Join brands br on p.brand_id = br.brand_id
+  Inner join categories cat on p.category_id = cat.category_id
+  Where not exists (
     Select 1
     From stocks s
     Where p.product_id = s.product_id)
