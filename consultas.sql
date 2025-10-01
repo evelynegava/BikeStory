@@ -50,11 +50,15 @@ Select 'ID do Produto' = p.product_id,
     Where p.product_id = s.product_id)
 
 -- 4.Agrupar a quantidade de vendas que uma determinada Marca por Loja.
-Select resumo.brand_id,
-       resumo.store_id,
-       count(order_id) as total_pedidos
+Select 'Id da Marca' = resumo.brand_id,
+       'Marca' = resumo.brand_name,
+       'Id da Loja' = resumo.store_id,
+       'Loja' = resumo.store_name,
+       'Total de Pedidos' = count(order_id) 
 From ( Select  b.brand_id,
+               b.brand_name,
                o.store_id,
+               so.store_name,
                o.order_id
         From orders o 
         Inner join stores so ON o.store_id = so.store_id
@@ -62,9 +66,9 @@ From ( Select  b.brand_id,
         Inner join products p ON p.product_id = oi.product_id
         Inner join brands b ON b.brand_id = p.brand_id
         Where b.brand_name = 'Brand 1'
-        Group by b.brand_id, o.store_id, o.order_id
+        Group by b.brand_id, b.brand_name, o.store_id, so.store_name, o.order_id
 ) as resumo
-Group by resumo.brand_id, resumo.store_id
+Group by resumo.brand_id, resumo.brand_name,resumo.store_id, resumo.store_name
 
 -- 5. Listar os Funcionarios que não estejam relacionados a um Pedido.
 Select 'ID do Staff' = s.staff_id,
