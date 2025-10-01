@@ -36,3 +36,9 @@ Where b.brand_name = 'Brand 1'
 Group by so.store_name, b.brand_name
 
 -- Listar os Funcionarios que não estejam relacionados a um Pedido.
+Select s.staff_id,
+       s.first_name,
+       s.last_name
+From staffs s
+Left join orders o on s.staff_id = o.staff_id
+Where o.order_id is null
