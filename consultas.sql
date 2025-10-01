@@ -22,3 +22,15 @@ Select *
     Select 1
     From stocks s
     Where p.product_id = s.product_id)
+
+-- Agrupar a quantidade de vendas que uma determinada Marca por Loja.
+Select so.store_name, 
+       b.brand_name,
+       count(distinct order_id)
+From orders o 
+Inner join stores so on o.store_id = so.store_id
+Inner join order_items oi on o.order_id = oi.order_id
+Inner join products p on p.product_id = oi.product_id
+Inner Join brands b on b.brand_id = p.brand_id
+Where b.brand_name = 'Brand 1'
+Group by so.store_name, b.brand_name
