@@ -1,13 +1,13 @@
 -- 1. Listar todos os clientes que não tenham realizado uma compra
-Select c.customer_id, 
-       c.first_name, 
-       c.last_name, 
-       c.phone, 
-       c.email, 
-       c.street, 
-       c.city, 
-       c.state, 
-       c.zip_code
+Select 'Id do Cliente' = c.customer_id, 
+       'Nome' = c.first_name, 
+       'Sobrenome' = c.last_name, 
+       'Telefone' = c.phone, 
+       'E-mail' = c.email, 
+       'Endereço' = c.street, 
+       'Cidade' = c.city, 
+       'Estado' = c.state, 
+       'CEP' = c.zip_code
   From customers c
 Where not exists (
     Select 1
@@ -16,14 +16,14 @@ Where not exists (
 )
 
 --2. Listar os Produtos que não tenham sido comprados
-Select p.product_id,
-       p.product_name,
-       p.brand_id,
-       br.brand_name,
-       p.category_id,
-       cat.category_name, 
-       p.model_year,
-       p.list_price
+Select 'Id do Produto' = p.product_id,
+       'Nome do Produto' = p.product_name,
+       'ID da Marca' = p.brand_id,
+       'Nome da Marca' = br.brand_name,
+       'ID da Categoria' = p.category_id,
+       'Nome da Categoria' = cat.category_name, 
+       'Ano Modelo' = p.model_year,
+       'Preços' = p.list_price
   From products p 
   Inner Join brands br on p.brand_id = br.brand_id
   Inner join categories cat on p.category_id = cat.category_id
@@ -33,14 +33,14 @@ Select p.product_id,
    Where p.product_id = oi.product_id)
 
 --3. Listar os Produtos sem Estoque
-Select p.product_id,
-       p.product_name,
-       p.brand_id,
-       br.brand_name,
-       p.category_id, 
-       cat.category_name, 
-       p.model_year,
-       p.list_price
+Select 'ID do Produto' = p.product_id,
+       'Nome do Produto' = p.product_name,
+       'ID da Marca' = p.brand_id,
+       'Nome da Marca' = br.brand_name,
+       'ID da Categoria' = p.category_id, 
+       'Nome da Categoria' = cat.category_name, 
+       'Ano Modelo' = p.model_year,
+       'Preços' = p.list_price
   From products p
   Inner Join brands br on p.brand_id = br.brand_id
   Inner join categories cat on p.category_id = cat.category_id
