@@ -14,3 +14,11 @@ Select *
   (Select 1 
    From order_itens oi 
    Where p.product_id = oi.product_id)
+
+--Listar os Produtos sem Estoque
+Select *
+  From products p
+ Where not exists (
+    Select 1
+    From stocks s
+    Where p.product_id = s.product_id)
