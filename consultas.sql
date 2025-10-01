@@ -1,4 +1,4 @@
---Listar todos os clientes que não tenham realizado uma compra
+-- 1. Listar todos os clientes que não tenham realizado uma compra
 Select c.customer_id, 
        c.first_name, 
        c.last_name, 
@@ -15,7 +15,7 @@ Where not exists (
     Where c.customer_id = o.customer_id
 )
 
---Listar os Produtos que não tenham sido comprados
+--2. Listar os Produtos que não tenham sido comprados
 Select p.product_id,
        p.product_name,
        p.brand_id,
@@ -32,7 +32,7 @@ Select p.product_id,
    From order_itens oi 
    Where p.product_id = oi.product_id)
 
---Listar os Produtos sem Estoque
+--3. Listar os Produtos sem Estoque
 Select p.product_id,
        p.product_name,
        p.brand_id,
@@ -49,19 +49,24 @@ Select p.product_id,
     From stocks s
     Where p.product_id = s.product_id)
 
--- Agrupar a quantidade de vendas que uma determinada Marca por Loja.
-Select so.store_name, 
-       b.brand_name,
-       count(distinct order_id)
-From orders o 
-Inner join stores so on o.store_id = so.store_id
-Inner join order_items oi on o.order_id = oi.order_id
-Inner join products p on p.product_id = oi.product_id
-Inner Join brands b on b.brand_id = p.brand_id
-Where b.brand_name = 'Brand 1'
-Group by so.store_name, b.brand_name
+-- 4.Agrupar a quantidade de vendas que uma determinada Marca por Loja.
+Select resumo.brand_id,
+       resumo.store_id,
+       count(order_id) as total_pedidos
+From ( Select  b.brand_id,
+               o.store_id,
+               o.order_id
+        From orders o 
+        Inner join stores so ON o.store_id = so.store_id
+        Inner join order_items oi ON o.order_id = oi.order_id
+        Inner join products p ON p.product_id = oi.product_id
+        Inner join brands b ON b.brand_id = p.brand_id
+        Where b.brand_name = 'Brand 1'
+        Group by b.brand_id, o.store_id, o.order_id
+) as resumo
+Group by resumo.brand_id, resumo.store_id
 
--- Listar os Funcionarios que não estejam relacionados a um Pedido.
+-- 5. Listar os Funcionarios que não estejam relacionados a um Pedido.
 Select s.staff_id,
        s.first_name,
        s.last_name
