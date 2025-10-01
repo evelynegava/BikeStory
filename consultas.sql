@@ -1,6 +1,14 @@
 --Listar todos os clientes que não tenham realizado uma compra
-Select *
-From customers c
+Select c.customer_id, 
+       c.first_name, 
+       c.last_name, 
+       c.phone, 
+       c.email, 
+       c.street, 
+       c.city, 
+       c.state, 
+       c.zip_code
+  From customers c
 Where not exists (
     Select 1
     From orders o
@@ -8,7 +16,12 @@ Where not exists (
 )
 
 --Listar os Produtos que não tenham sido comprados
-Select * 
+Select p.product_id,
+       p.product_name,
+       p.brand_id,
+       p.category_id, 
+       p.model_year,
+       p.list_price
   From products p 
   Where not exists 
   (Select 1 
@@ -16,7 +29,12 @@ Select *
    Where p.product_id = oi.product_id)
 
 --Listar os Produtos sem Estoque
-Select *
+Select p.product_id,
+       p.product_name,
+       p.brand_id,
+       p.category_id, 
+       p.model_year,
+       p.list_price
   From products p
  Where not exists (
     Select 1
